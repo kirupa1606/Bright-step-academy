@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightSteps Academy | Student Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #173d53;
+    --green: #39a878;
+    --mint: #e8f6f0;
+    --sky: #dceef7;
+    --cream: #fafaf6;
+    --text: #263238;
+    --muted: rgba(38, 50, 56, 0.75);
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: #fff; line-height: 1.5; }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3, h4 { font-family: 'Poppins', 'Inter', sans-serif; color: var(--navy); }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; padding: 14px 28px; border: 2px solid transparent; cursor: pointer; transition: transform .15s, box-shadow .15s, background .15s; white-space: nowrap; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-green { background: var(--green); color: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); }
+  .btn-outline { background: #fff; color: var(--navy); border-color: rgba(23,61,83,.2); }
+  .badge { display: inline-block; border-radius: 999px; padding: 6px 16px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; }
+  .section-header { max-width: 768px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  .section-header p { font-size: 18px; color: var(--muted); line-height: 1.55; }
+  .arrow { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* NAV */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,238,247,.7); box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .nav-inner { height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark { width: 48px; height: 48px; border-radius: 16px; background: var(--navy); display: grid; place-items: center; box-shadow: 0 4px 6px -1px rgba(23,61,83,.2); }
+  .logo-text strong { display: block; font-family: 'Poppins', sans-serif; font-size: 20px; color: var(--navy); letter-spacing: -.5px; line-height: 1.2; }
+  .logo-text span { font-size: 12px; font-weight: 600; letter-spacing: .6px; color: #607274; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-weight: 500; font-size: 14px; color: var(--text); }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background: var(--green); color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; padding: 10px 24px; border-radius: 999px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .menu-btn { display: none; background: none; border: 0; font-size: 28px; color: var(--navy); cursor: pointer; }
+
+  /* HERO */
+  .hero { position: relative; overflow: hidden; background: linear-gradient(to bottom, rgba(240,247,251,.8), #fafaf6 60%, #fff); padding: 96px 0; }
+  .hero::before { content: ""; position: absolute; width: 384px; height: 384px; left: -96px; top: -96px; border-radius: 50%; background: rgba(220,238,247,.5); filter: blur(64px); }
+  .hero::after { content: ""; position: absolute; width: 320px; height: 320px; right: 0; top: calc(50% + 120px); border-radius: 50%; background: rgba(232,246,240,.6); filter: blur(64px); }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 7fr 5fr; gap: 48px; align-items: center; }
+  .hero-copy { display: flex; flex-direction: column; gap: 28px; }
+  .hero-badge { background: var(--sky); color: var(--navy); display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 12px; letter-spacing: .3px; width: fit-content; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+  .hero h1 { font-weight: 800; font-size: 60px; line-height: 1.05; letter-spacing: -1.5px; }
+  .hero h1 span { color: var(--green); display: block; }
+  .tagline { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; color: rgba(23,61,83,.85); }
+  .hero-desc { font-size: 18px; color: rgba(38,50,56,.8); max-width: 672px; line-height: 1.55; }
+  .hero-actions { display: flex; gap: 16px; align-items: center; padding-top: 8px; flex-wrap: wrap; }
+  .trust { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; border-top: 1px solid var(--sky); padding-top: 25px; }
+  .trust span { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: rgba(23,61,83,.8); }
+  .trust .sep { color: var(--sky); }
+  .check { width: 10px; height: 10px; }
+  .hero-image { position: relative; }
+  .hero-image::before { content: ""; position: absolute; inset: -12px; border-radius: 24px; background: linear-gradient(45deg, var(--navy), var(--green)); filter: blur(16px); opacity: .2; }
+  .photo { position: relative; background: #fff; border: 4px solid #fff; border-radius: 24px; padding: 4px; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+  .photo-box { height: 480px; border-radius: 20px; background: linear-gradient(135deg, #cfe7f2 0%, #e8f6f0 50%, #f6e9d6 100%); display: grid; place-items: center; color: var(--navy); text-align: center; padding: 24px; }
+  .photo-box small { display: block; font-size: 13px; opacity: .7; margin-top: 6px; }
+  .float-pill { position: absolute; left: 16px; right: 16px; bottom: 16px; background: rgba(255,255,255,.95); border: 1px solid var(--sky); border-radius: 16px; padding: 17px; display: flex; gap: 16px; align-items: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); backdrop-filter: blur(12px); }
+  .float-icon { width: 44px; height: 44px; border-radius: 16px; background: rgba(57,168,120,.1); display: grid; place-items: center; flex-shrink: 0; }
+  .float-pill h4 { font-size: 14px; line-height: 20px; }
+  .float-pill p { font-size: 12px; color: rgba(38,50,56,.7); line-height: 16px; }
+
+  /* ABOUT */
+  .about { background: var(--cream); border-top: 1px solid rgba(220,238,247,.6); padding: 81px 0 80px; }
+  .about .section-header { gap: 16px; }
+  .about .grid { margin-top: 64px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .card { position: relative; background: #fff; border: 1px solid var(--sky); border-radius: 16px; height: 275px; padding: 32px; box-shadow: 0 4px 20px -2px rgba(23,61,83,.06); }
+  .card-icon { width: 56px; height: 56px; border-radius: 16px; background: #f0f7fb; display: grid; place-items: center; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .card h3 { font-size: 20px; line-height: 28px; margin-top: 24px; }
+  .card p { font-size: 14px; color: var(--muted); line-height: 22.75px; margin-top: 12px; }
+
+  /* REGISTRATION */
+  .register { background: #fff; border-top: 1px solid rgba(220,238,247,.6); padding: 81px 0 80px; }
+  .reg-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center; }
+  .reg-left { display: flex; flex-direction: column; gap: 24px; }
+  .reg-left .badge { background: var(--mint); color: var(--green); width: fit-content; }
+  .reg-left h2 { font-weight: 700; font-size: 36px; line-height: 40px; }
+  .reg-left h2 span { color: var(--green); display: block; }
+  .reg-left > p { font-size: 16px; color: rgba(38,50,56,.8); line-height: 26px; }
+  .reg-photo { position: relative; border: 1px solid var(--sky); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -4px rgba(23,61,83,.08); }
+  .reg-photo .photo-fallback { height: 288px; background: linear-gradient(135deg, #f0f7fb, #e8f6f0); display: grid; place-items: center; color: var(--navy); font-size: 14px; text-align: center; padding: 16px; }
+  .reg-photo .caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px; background: linear-gradient(to top, rgba(23,61,83,.6), rgba(23,61,83,0)); color: #fff; font-weight: 500; font-size: 14px; }
+  .info-note { background: #f0f7fb; border: 1px solid var(--sky); border-radius: 12px; padding: 17px; display: flex; gap: 12px; align-items: flex-start; font-size: 12px; color: rgba(23,61,83,.9); line-height: 19.5px; }
+  .info-note svg { width: 24px; height: 24px; flex-shrink: 0; }
+  .form-card { background: rgba(250,250,246,.8); border: 1px solid rgba(220,238,247,.8); border-radius: 24px; padding: 41px; box-shadow: 0 10px 25px -4px rgba(23,61,83,.08), 0 4px 6px -2px rgba(23,61,83,.02); backdrop-filter: blur(4px); }
+  .form-card h3 { font-weight: 700; font-size: 24px; line-height: 32px; }
+  .form-card .sub { font-size: 14px; color: rgba(38,50,56,.7); margin-top: 4px; margin-bottom: 32px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-weight: 600; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: var(--text); }
+  .field input { font: inherit; font-size: 14px; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 14px 17px; outline: none; transition: border-color .15s, box-shadow .15s; }
+  .field input::placeholder { color: #9ca3af; }
+  .field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(57,168,120,.15); }
+  .submit-btn { width: 100%; margin-top: 24px; background: var(--green); color: #fff; border: 0; border-radius: 12px; padding: 16px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); transition: opacity .15s; }
+  .submit-btn:disabled { opacity: .7; cursor: not-allowed; }
+  .form-msg { margin-top: 16px; padding: 12px 16px; border-radius: 12px; font-size: 14px; display: none; }
+  .form-msg.success { display: block; background: var(--mint); color: #198754; border: 1px solid #b5e2cd; }
+  .form-msg.error { display: block; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+  .form-note { text-align: center; font-size: 12px; color: rgba(38,50,56,.6); margin-top: 16px; }
+
+  /* ATTENDANCE */
+  .attendance { background: rgba(240,247,251,.5); border-top: 1px solid var(--sky); padding: 81px 0 80px; }
+  .attendance .badge { background: var(--navy); color: #fff; }
+  .attendance .section-header { gap: 16px; }
+  .attendance h2 { font-weight: 700; font-size: 36px; letter-spacing: -.9px; }
+  .attendance .section-header > p { margin-top: 0; }
+  .dash { margin-top: 48px; background: #fff; border: 1px solid var(--sky); border-radius: 24px; padding: 41px; box-shadow: 0 20px 35px -8px rgba(23,61,83,.12); display: flex; flex-direction: column; gap: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 24px; }
+  .stat { border: 2px solid var(--sky); border-radius: 16px; padding: 26px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(160deg, #f0f7fb 0%, #fff 100%); box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .stat.green { border-color: rgba(57,168,120,.3); background: linear-gradient(160deg, rgba(232,246,240,.6) 0%, #fff 100%); }
+  .stat.red { border-color: rgba(239,68,68,.3); background: linear-gradient(160deg, rgba(254,242,242,.6) 0%, #fff 100%); }
+  .stat small { display: block; font-weight: 600; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: rgba(23,61,83,.7); }
+  .stat.green small { color: var(--green); }
+  .stat.red small { color: #ef4444; }
+  .stat strong { display: block; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 36px; line-height: 40px; color: var(--navy); }
+  .stat.green strong { color: var(--green); }
+  .stat.red strong { color: #ef4444; }
+  .stat p { font-size: 12px; color: rgba(38,50,56,.6); }
+  .stat-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(23,61,83,.1); display: grid; place-items: center; }
+  .stat.green .stat-icon { background: rgba(57,168,120,.1); }
+  .stat.red .stat-icon { background: rgba(239,68,68,.1); }
+  .toolbar { background: rgba(250,250,246,.8); border: 1px solid var(--sky); border-radius: 16px; padding: 21px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  .toolbar-left { display: flex; gap: 12px; align-items: center; flex: 1 1 500px; }
+  .date-box { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 11px 15px; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 12px; color: var(--navy); box-shadow: 0 1px 1px rgba(0,0,0,.05); white-space: nowrap; }
+  .search { position: relative; flex: 1; min-width: 180px; }
+  .search input { width: 100%; font: inherit; font-size: 12px; padding: 12px 17px 12px 41px; border: 1px solid var(--border); border-radius: 12px; background: #fff; outline: none; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .search input:focus { border-color: var(--green); }
+  .search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; }
+  .toolbar-right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .pills { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 5px; display: flex; gap: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .pill { border: 0; background: none; font: inherit; font-weight: 500; font-size: 12px; padding: 6px 14px; border-radius: 8px; cursor: pointer; color: var(--text); }
+  .pill.active { background: var(--navy); color: #fff; }
+  .save-btn { background: var(--navy); color: #fff; border: 0; border-radius: 12px; padding: 10px 20px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+  .table-wrap { border: 1px solid var(--border); border-radius: 16px; overflow-x: auto; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  table { width: 100%; min-width: 900px; border-collapse: collapse; }
+  thead th { background: rgba(240,247,251,.7); text-align: left; padding: 16px 24px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: var(--navy); }
+  thead th.c, td.c { text-align: center; }
+  tbody td { padding: 16px 24px; border-top: 1px solid rgba(226,232,240,.6); font-size: 14px; vertical-align: middle; }
+  .student { display: flex; align-items: center; gap: 12px; font-weight: 500; color: var(--navy); }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--sky); display: grid; place-items: center; font-weight: 700; font-size: 12px; color: var(--navy); text-transform: uppercase; flex-shrink: 0; }
+  .class-tag { display: inline-block; background: #f1f5f9; color: #334155; font-weight: 600; font-size: 12px; padding: 4px 10px; border-radius: 6px; }
+  .phone { font-size: 12px; color: rgba(38,50,56,.8); }
+  .status { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; padding: 5px 13px; border-radius: 999px; border: 1px solid; }
+  .status .d { width: 8px; height: 8px; border-radius: 50%; }
+  .status.present { background: var(--mint); border-color: #b5e2cd; color: #198754; }
+  .status.present .d { background: #22c55e; }
+  .status.absent { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+  .status.absent .d { background: #ef4444; }
+  .seg { display: inline-flex; gap: 4px; background: #f1f5f9; padding: 4px; border-radius: 12px; }
+  .seg button { border: 0; background: none; font: inherit; font-weight: 600; font-size: 12px; color: var(--text); padding: 4px 12px; border-radius: 8px; cursor: pointer; }
+  .seg button.on-present { background: var(--green); color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .seg button.on-absent { background: #ef4444; color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .table-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: rgba(38,50,56,.6); }
+  .table-foot strong { color: var(--navy); font-weight: 600; }
+  .empty { display: none; text-align: center; padding: 24px; color: rgba(38,50,56,.6); font-size: 14px; }
+
+  /* CTA */
+  .cta { position: relative; overflow: hidden; background: var(--navy); padding: 96px 0; text-align: center; }
+  .cta::before { content: ""; position: absolute; width: 384px; height: 384px; right: -80px; bottom: -80px; border-radius: 50%; background: rgba(57,168,120,.1); filter: blur(64px); }
+  .cta::after { content: ""; position: absolute; width: 288px; height: 288px; left: 40px; top: 40px; border-radius: 50%; background: rgba(220,238,247,.1); filter: blur(40px); }
+  .cta-inner { position: relative; z-index: 1; max-width: 1024px; margin: 0 auto; padding: 0 32px; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .cta .badge { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); color: var(--sky); padding: 7px 17px; letter-spacing: .6px; }
+  .cta h2 { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 48px; line-height: 48px; letter-spacing: -1.2px; color: #fff; }
+  .cta .sub { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; color: var(--sky); line-height: 32px; }
+  .cta p.desc { font-size: 18px; color: rgba(255,255,255,.8); max-width: 672px; line-height: 28px; }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding-top: 24px; }
+  .cta .btn-green { font-family: 'Poppins', sans-serif; font-weight: 700; padding: 16px 40px; }
+  .btn-audit { background: #fff; color: var(--navy); font-family: 'Poppins', sans-serif; font-weight: 700; padding: 16px 40px; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); }
+
+  /* FOOTER */
+  footer { background: #0e2634; border-top: 1px solid rgba(255,255,255,.1); padding: 65px 0 64px; color: #fff; }
+  .foot-grid { display: grid; grid-template-columns: 5fr 3fr 4fr; gap: 32px; }
+  .foot-brand { display: flex; flex-direction: column; gap: 15px; }
+  .foot-brand .brand { display: flex; align-items: center; gap: 12px; }
+  .foot-brand .brand-mark { width: 40px; height: 40px; border-radius: 12px; background: var(--green); display: grid; place-items: center; }
+  .foot-brand .brand-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -.5px; }
+  .foot-brand p { font-size: 14px; color: rgba(255,255,255,.7); line-height: 22.75px; max-width: 384px; }
+  .socials { display: flex; gap: 12px; padding-top: 9px; }
+  .socials a { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.1); display: grid; place-items: center; font-weight: 700; font-size: 12px; color: #fff; }
+  .foot-col h4 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: .7px; text-transform: uppercase; color: #fff; margin-bottom: 16px; }
+  .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .foot-col a, .foot-col li { font-size: 14px; color: rgba(255,255,255,.8); }
+  .foot-col a:hover { color: var(--green); }
+  .contact-item { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: rgba(255,255,255,.7); line-height: 20px; margin-bottom: 12px; }
+  .contact-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--green); margin-top: 1px; }
+  .copyright { margin-top: 48px; padding-top: 33px; border-top: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,.5); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .about .grid { grid-template-columns: repeat(2, 1fr); }
+    .card { height: auto; min-height: 275px; }
+    .nav-links { gap: 20px; }
+    .nav-links a:not(.nav-cta) { font-size: 13px; }
+  }
+  @media (max-width: 960px) {
+    .hero-grid, .reg-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 46px; }
+    .reg-grid { gap: 40px; }
+    .stats { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: 1 / -1; }
+    .menu-btn { display: block; }
+    .nav-links { display: none; position: absolute; top: 80px; left: 0; right: 0; flex-direction: column; align-items: stretch; background: #fff; padding: 16px 32px 24px; border-bottom: 1px solid var(--sky); box-shadow: 0 10px 20px rgba(0,0,0,.06); gap: 16px; }
+    .nav-links.open { display: flex; }
+    .nav { position: sticky; }
+    .nav-inner { position: relative; }
+  }
+  @media (max-width: 640px) {
+    .container, .cta-inner { padding: 0 20px; }
+    .hero { padding: 56px 0; }
+    .hero h1 { font-size: 36px; letter-spacing: -1px; }
+    .tagline { font-size: 19px; }
+    .hero-desc, .reg-left > p { font-size: 15px; }
+    .photo-box { height: 340px; }
+    .about .grid { grid-template-columns: 1fr; }
+    .attendance h2, .reg-left h2 { font-size: 28px; line-height: 34px; }
+    .form-card, .dash { padding: 24px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .cta h2 { font-size: 34px; line-height: 40px; }
+    .cta .sub { font-size: 19px; }
+    .btn { width: 100%; justify-content: center; }
+    .hero-actions, .cta-actions { flex-direction: column; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .logo-text strong { font-size: 18px; }
+    .toolbar-left, .toolbar-right { width: 100%; }
+    .pills { width: 100%; justify-content: space-between; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 2. STICKY NAVIGATION -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="logo">
+      <div class="logo-mark">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div class="logo-text">
+        <strong>BrightSteps</strong>
+        <span>Academy</span>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#top">Home</a>
+      <a href="#about">About</a>
+      <a href="#about">Achievements</a>
+      <a href="#register">Register</a>
+      <a href="#attendance">Attendance</a>
+      <a href="#register" class="nav-cta">Join Our Academy</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 3. HERO SECTION -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="hero-badge"><span class="dot"></span>Empowering Next-Gen Learners</span>
+        <h1>Every Student Matters,<span>Every Day Counts!</span></h1>
+        <p class="tagline">Where learning grows and every student's journey glows.</p>
+        <p class="hero-desc">Great learning starts with great care. We believe every student deserves attention, encouragement, and the right guidance. Stay connected with your child's learning journey through our simple and smart attendance system.</p>
+        <div class="hero-actions">
+          <a href="#register" class="btn btn-green">Register Your Child
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#attendance" class="btn btn-outline">Explore Attendance</a>
+        </div>
+        <div class="trust">
+          <span><svg class="check" viewBox="0 0 10 10"><path d="M1 5l3 3 5-6" fill="none" stroke="#39a878" stroke-width="1.6"/></svg>Personal Attention</span>
+          <span class="sep">&bull;</span>
+          <span><svg class="check" viewBox="0 0 10 10"><path d="M1 5l3 3 5-6" fill="none" stroke="#39a878" stroke-width="1.6"/></svg>Quality Learning</span>
+          <span class="sep">&bull;</span>
+          <span><svg class="check" viewBox="0 0 10 10"><path d="M1 5l3 3 5-6" fill="none" stroke="#39a878" stroke-width="1.6"/></svg>Consistent Progress</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="photo">
+          <div class="photo-box" role="img" aria-label="Teacher smiling and guiding eager students in a bright modern classroom">
+            <div>
+              Teacher guiding students in a bright classroom
+              <small>Replace with your classroom photo</small>
+            </div>
+          </div>
+        </div>
+        <div class="float-pill">
+          <div class="float-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#173d53"><path d="M12 2l2.9 6.9L22 10l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.2L2 10l7.1-1.1z"/></svg>
+          </div>
+          <div>
+            <h4>Nurturing Young Minds</h4>
+            <p>Small batches with personalized mentoring</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ABOUT / ACHIEVEMENTS -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge" style="background: var(--sky); color: var(--navy);">Why BrightSteps</span>
+      <h2 style="font-family:'Poppins',sans-serif; font-weight:700; font-size:36px; line-height:40px; letter-spacing:-.9px;">Small Steps, Big Dreams &ndash; Together We Achieve!</h2>
+      <p>Every lesson learned is a step forward. Every effort made is a success in progress.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <h3>Quality Education</h3>
+        <p>Building strong foundations for brighter futures through systematic curriculum and concept mastery.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 6.5M18.5 14.7c1.6.8 2.7 2.6 3 5.3"/></svg>
+        </div>
+        <h3>Individual Attention</h3>
+        <p>Every student gets the care and guidance they deserve with customized pacing and dedicated doubt clearance.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        </div>
+        <h3>Continuous Growth</h3>
+        <p>Celebrating progress, one lesson at a time, reinforcing positive study habits and self-assurance.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0016.5 3c-1.8 0-3 .8-4.5 2-1.5-1.2-2.7-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg>
+        </div>
+        <h3>Supportive Learning</h3>
+        <p>Creating a positive, friendly space to learn and shine without pressure or fear of making mistakes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. STUDENT REGISTRATION -->
+<section class="register" id="register">
+  <div class="container">
+    <div class="reg-grid">
+      <div class="reg-left">
+        <span class="badge">Start Your Journey</span>
+        <h2>One Step to Enroll,<span>A Lifetime to Grow!</span></h2>
+        <p>Every great journey begins with a single step. Register your details below and become a part of our learning community. Let's make learning meaningful together.</p>
+        <div class="reg-photo">
+          <div class="photo-fallback" role="img" aria-label="Happy students collaborating warmly at round wooden desks">
+            Students collaborating at round wooden desks<br><small>Replace with your classroom photo</small>
+          </div>
+          <div class="caption">Collaborative, cheerful learning environment for all grade levels.</div>
+        </div>
+        <div class="info-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+          <span>Once registered, the student is instantly added to the teacher's active attendance roster below for daily tracking.</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Student Registration</h3>
+        <p class="sub">Please fill in the student and parent details to get started.</p>
+
+        <form id="regForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Student Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="e.g. Maya Chen" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="e.g. david.chen@email.com" autocomplete="email" required>
+            </div>
+            <div class="field full">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" name="phone" placeholder="e.g. +1 (555) 234-5678" autocomplete="tel" required>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Register Now
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <div class="form-msg" id="formMsg" role="status"></div>
+          <p class="form-note">Your information is used only for student registration and communication.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ATTENDANCE MANAGEMENT -->
+<section class="attendance" id="attendance">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge">Teacher Portal</span>
+      <h2>Present Today, Successful Tomorrow!</h2>
+      <p>Every day in class is an opportunity to learn something new. Keep track of student attendance easily with just one click. Because every day of learning makes a difference!</p>
+    </div>
+
+    <div class="dash">
+      <div class="stats">
+        <div class="stat">
+          <div>
+            <small>Total Students</small>
+            <strong id="statTotal">6</strong>
+            <p>Enrolled active learners</p>
+          </div>
+          <div class="stat-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/></svg>
+          </div>
+        </div>
+        <div class="stat green">
+          <div>
+            <small>Present Students</small>
+            <strong id="statPresent">5</strong>
+            <p>Attending class today</p>
+          </div>
+          <div class="stat-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#39a878" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </div>
+        </div>
+        <div class="stat red">
+          <div>
+            <small>Absent Students</small>
+            <strong id="statAbsent">1</strong>
+            <p>Requires follow-up</p>
+          </div>
+          <div class="stat-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="date-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#173d53" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            11/10/2026
+          </div>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" id="searchInput" placeholder="Search student by name...">
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <div class="pills" id="filterPills">
+            <button class="pill active" data-filter="all">All</button>
+            <button class="pill" data-filter="present">Present</button>
+            <button class="pill" data-filter="absent">Absent</button>
+          </div>
+          <button class="save-btn" id="saveBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Save Attendance
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Class</th>
+              <th>Phone Number</th>
+              <th class="c">Attendance Status</th>
+              <th class="c">Action</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceBody">
+            <tr data-status="present" data-name="Lucas Vance">
+              <td><div class="student"><span class="avatar">LV</span>Lucas Vance</div></td>
+              <td><span class="class-tag">Grade 8</span></td>
+              <td class="phone">+1 (555) 342-9182</td>
+              <td class="c"><span class="status present"><span class="d"></span>Present</span></td>
+              <td class="c"><div class="seg"><button class="on-present" data-set="present">Present</button><button data-set="absent">Absent</button></div></td>
+            </tr>
+            <tr data-status="present" data-name="Sophia Morales">
+              <td><div class="student"><span class="avatar">SM</span>Sophia Morales</div></td>
+              <td><span class="class-tag">Grade 7</span></td>
+              <td class="phone">+1 (555) 782-4109</td>
+              <td class="c"><span class="status present"><span class="d"></span>Present</span></td>
+              <td class="c"><div class="seg"><button class="on-present" data-set="present">Present</button><button data-set="absent">Absent</button></div></td>
+            </tr>
+            <tr data-status="absent" data-name="Aiden Patel">
+              <td><div class="student"><span class="avatar">AP</span>Aiden Patel</div></td>
+              <td><span class="class-tag">Grade 9</span></td>
+              <td class="phone">+1 (555) 619-3028</td>
+              <td class="c"><span class="status absent"><span class="d"></span>Absent</span></td>
+              <td class="c"><div class="seg"><button data-set="present">Present</button><button class="on-absent" data-set="absent">Absent</button></div></td>
+            </tr>
+            <tr data-status="present" data-name="Emma Watson">
+              <td><div class="student"><span class="avatar">EW</span>Emma Watson</div></td>
+              <td><span class="class-tag">Grade 8</span></td>
+              <td class="phone">+1 (555) 894-1120</td>
+              <td class="c"><span class="status present"><span class="d"></span>Present</span></td>
+              <td class="c"><div class="seg"><button class="on-present" data-set="present">Present</button><button data-set="absent">Absent</button></div></td>
+            </tr>
+            <tr data-status="present" data-name="Noah Campbell">
+              <td><div class="student"><span class="avatar">NC</span>Noah Campbell</div></td>
+              <td><span class="class-tag">Grade 6</span></td>
+              <td class="phone">+1 (555) 451-9923</td>
+              <td class="c"><span class="status present"><span class="d"></span>Present</span></td>
+              <td class="c"><div class="seg"><button class="on-present" data-set="present">Present</button><button data-set="absent">Absent</button></div></td>
+            </tr>
+            <tr data-status="present" data-name="Zoe Richardson">
+              <td><div class="student"><span class="avatar">ZR</span>Zoe Richardson</div></td>
+              <td><span class="class-tag">Grade 7</span></td>
+              <td class="phone">+1 (555) 238-7711</td>
+              <td class="c"><span class="status present"><span class="d"></span>Present</span></td>
+              <td class="c"><div class="seg"><button class="on-present" data-set="present">Present</button><button data-set="absent">Absent</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="empty" id="emptyMsg">No students match your search.</div>
+      </div>
+
+      <div class="table-foot">
+        <span>* Pre-populated with realistic sample records. You can register new students above to immediately test attendance sync.</span>
+        <strong>Showing all students</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CLOSING CALL-TO-ACTION -->
+<section class="cta">
+  <div class="cta-inner">
+    <span class="badge">Empowering Bright Futures</span>
+    <h2>Your Child's Future Starts Here!</h2>
+    <div class="sub">Learn with Care, Grow with Confidence.</div>
+    <p class="desc">Let's work together to turn little efforts into big achievements. Every student has potential, and every step deserves encouragement.</p>
+    <div class="cta-actions">
+      <a href="#register" class="btn btn-green">Start Your Learning Journey Today!
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" class="btn btn-audit">Free Audit for &#8377;1</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 8. FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <span class="brand-name">BrightSteps Academy</span>
+        </div>
+        <p>A compassionate, quality-driven tuition academy dedicated to building strong foundations, confidence, and consistent academic progress for every student.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#top">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#about">Key Achievements</a></li>
+          <li><a href="#register">Student Registration</a></li>
+          <li><a href="#attendance">Attendance Management</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contact &amp; Location</h4>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>104 Learning Blossom Lane, Suite 2B, Cambridge<br>Academic Hub</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/></svg>
+          <span>+1 (800) 555-STEP (7837)</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+          <span>hello@brightstepsacademy.edu</span>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>&copy; 2026 BrightSteps Academy. All rights reserved.</span>
+      <span>Designed for student success and seamless classroom administration.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- Mobile menu ---------- */
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* ---------- Registration form ---------- */
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdxfZPeRmS3nfgc3Xk1CkD85x0u35IU5qSCl4QsgMIW8xdvnr0Q2ERb2YTfEEib8r-/exec";
+  const form = document.getElementById('regForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMsg = document.getElementById('formMsg');
+  const defaultBtnHTML = submitBtn.innerHTML;
+
+  function setLoading(isLoading) {
+    submitBtn.disabled = isLoading;
+    submitBtn.textContent = isLoading ? 'Registering...' : '';
+    if (!isLoading) submitBtn.innerHTML = defaultBtnHTML;
+  }
+
+  function showSuccess() {
+    setLoading(false);
+    formMsg.className = 'form-msg success';
+    formMsg.textContent = 'Thank you! Your registration has been submitted.';
+    form.reset();
+  }
+
+  function showError(text) {
+    setLoading(false);
+    formMsg.className = 'form-msg error';
+    formMsg.textContent = text || 'Something went wrong. Please check your connection and try again.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || !email || !phone) {
+      showError('Please fill in all required fields.');
+      return;
+    }
+
+    formMsg.className = 'form-msg';
+    formMsg.textContent = '';
+    setLoading(true);
+
+    const url = SCRIPT_URL + "?" + new URLSearchParams({ name, email, phone });
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(() => showSuccess())
+      .catch(() => showError());
+  });
+
+  /* ---------- Attendance dashboard ---------- */
+  const rows = Array.from(document.querySelectorAll('#attendanceBody tr'));
+  const searchInput = document.getElementById('searchInput');
+  const emptyMsg = document.getElementById('emptyMsg');
+  let currentFilter = 'all';
+
+  function setRowStatus(row, status) {
+    row.dataset.status = status;
+    const isPresent = status === 'present';
+    const badge = row.querySelector('.status');
+    badge.className = 'status ' + status;
+    badge.lastChild.textContent = isPresent ? 'Present' : 'Absent';
+    const [pBtn, aBtn] = row.querySelectorAll('.seg button');
+    pBtn.className = isPresent ? 'on-present' : '';
+    aBtn.className = isPresent ? '' : 'on-absent';
+  }
+
+  function applyFilters() {
+    const q = searchInput.value.trim().toLowerCase();
+    let visible = 0;
+    rows.forEach(row => {
+      const matchName = row.dataset.name.toLowerCase().includes(q);
+      const matchStatus = currentFilter === 'all' || row.dataset.status === currentFilter;
+      const show = matchName && matchStatus;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function updateStats() {
+    const present = rows.filter(r => r.dataset.status === 'present').length;
+    document.getElementById('statTotal').textContent = rows.length;
+    document.getElementById('statPresent').textContent = present;
+    document.getElementById('statAbsent').textContent = rows.length - present;
+  }
+
+  rows.forEach(row => {
+    row.querySelectorAll('.seg button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setRowStatus(row, btn.dataset.set);
+        updateStats();
+        applyFilters();
+      });
+    });
+  });
+
+  document.querySelectorAll('#filterPills .pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('#filterPills .pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentFilter = pill.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  document.getElementById('saveBtn').addEventListener('click', function () {
+    const btn = this;
+    const original = btn.innerHTML;
+    btn.textContent = 'Saved!';
+    setTimeout(() => { btn.innerHTML = original; }, 1500);
+  });
+
+  updateStats();
+</script>
+</body>
+</html>
