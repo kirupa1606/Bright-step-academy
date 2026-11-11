@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrightSteps Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #173d53;
+      --navy-dark: #0e2634;
+      --green: #39a878;
+      --green-soft: #e8f6f0;
+      --sky: #dceef7;
+      --sky-soft: #f0f7fb;
+      --ink: #263238;
+      --muted: rgba(38, 50, 56, 0.75);
+      --line: #e2e8f0;
+      --bg: #fafaf6;
+      --red: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; }
+    h1, h2, h3, h4, .poppins { font-family: 'Poppins', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    section { position: relative; overflow: hidden; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* ---------- NAV ---------- */
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,238,247,0.7); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .nav-inner { height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { width: 48px; height: 48px; border-radius: 16px; background: var(--navy); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px; box-shadow: 0 4px 6px -1px rgba(23,61,83,0.2); }
+    .logo-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); letter-spacing: -0.5px; line-height: 1.1; }
+    .logo-sub { font-size: 12px; font-weight: 600; color: #607274; letter-spacing: 0.6px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .nav-links a:hover { color: var(--green); }
+    .btn-pill { background: var(--green); color: #fff; padding: 10px 24px; border-radius: 9999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); white-space: nowrap; }
+
+    /* ---------- BUTTONS ---------- */
+    .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; padding: 14px 28px; border: none; cursor: pointer; transition: transform .15s, box-shadow .15s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-outline { background: #fff; color: var(--navy); border: 2px solid rgba(23,61,83,0.2); box-shadow: none; }
+    .btn-navy { background: var(--navy); color: #fff; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    /* ---------- HERO ---------- */
+    .hero { background: linear-gradient(180deg, rgba(240,247,251,0.8), var(--bg) 60%, #fff); padding: 96px 0; }
+    .blob { position: absolute; border-radius: 9999px; filter: blur(64px); pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 48px; align-items: center; position: relative; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--sky); border-radius: 9999px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--navy); letter-spacing: .3px; }
+    .dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--green); display: inline-block; }
+    .hero h1 { font-weight: 800; font-size: 60px; line-height: 1.05; letter-spacing: -1.5px; color: var(--navy); margin: 24px 0 16px; }
+    .hero h1 span { color: var(--green); }
+    .tagline { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; color: rgba(23,61,83,0.85); margin-bottom: 20px; }
+    .hero p.desc { font-size: 18px; color: rgba(38,50,56,0.8); max-width: 672px; margin-bottom: 32px; }
+    .actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+    .trust { border-top: 1px solid var(--sky); padding-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 24px; }
+    .trust span { font-size: 14px; font-weight: 600; color: rgba(23,61,83,0.8); display: flex; align-items: center; gap: 8px; }
+    .trust span::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--green); }
+    .hero-visual { position: relative; }
+    .hero-visual .outline { position: absolute; inset: -12px; border-radius: 24px; background: linear-gradient(45deg, var(--navy), var(--green)); opacity: .2; filter: blur(16px); }
+    .photo { position: relative; height: 480px; border-radius: 20px; background: linear-gradient(135deg, #cfe9f5 0%, #e8f6f0 55%, #fff 100%); border: 4px solid #fff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: rgba(23,61,83,0.55); font-size: 14px; padding: 24px; }
+    .pill-float { position: absolute; left: 16px; right: 16px; bottom: 16px; background: rgba(255,255,255,0.95); border: 1px solid var(--sky); border-radius: 16px; padding: 17px 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); }
+    .pill-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--green-soft); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .pill-float strong { display: block; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--navy); }
+    .pill-float small { font-size: 12px; color: rgba(38,50,56,0.7); }
+
+    /* ---------- SECTION HEADER ---------- */
+    .section-header { max-width: 768px; margin: 0 auto 56px; text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+    .eyebrow { display: inline-block; padding: 6px 16px; border-radius: 9999px; font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; }
+    .eyebrow.sky { background: var(--sky); color: var(--navy); }
+    .eyebrow.navy { background: var(--navy); color: #fff; }
+    .eyebrow.green { background: var(--green-soft); color: var(--green); }
+    .section-header h2 { font-weight: 700; font-size: 36px; line-height: 1.15; letter-spacing: -0.9px; color: var(--navy); }
+    .section-header p { font-size: 18px; color: rgba(38,50,56,0.75); }
+
+    /* ---------- ABOUT CARDS ---------- */
+    .about { background: var(--bg); border-top: 1px solid rgba(220,238,247,0.6); padding: 96px 0; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .card { background: #fff; border: 1px solid var(--sky); border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px -2px rgba(23,61,83,0.06); transition: transform .2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card-icon { width: 56px; height: 56px; border-radius: 16px; background: var(--sky-soft); display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 24px; box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
+    .card h3 { font-weight: 700; font-size: 20px; color: var(--navy); margin-bottom: 12px; }
+    .card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ---------- REGISTRATION ---------- */
+    .register { background: #fff; border-top: 1px solid rgba(220,238,247,0.6); padding: 96px 0; }
+    .reg-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center; }
+    .reg-left { display: flex; flex-direction: column; gap: 24px; }
+    .reg-left h2 { font-weight: 700; font-size: 36px; line-height: 1.12; color: var(--navy); }
+    .reg-left h2 span { color: var(--green); }
+    .reg-left p { font-size: 16px; color: rgba(38,50,56,0.8); line-height: 1.6; }
+    .reg-photo { height: 290px; border-radius: 16px; border: 1px solid var(--sky); background: linear-gradient(135deg, #f0f7fb, #e8f6f0); display: flex; align-items: flex-end; position: relative; overflow: hidden; box-shadow: 0 10px 25px -4px rgba(23,61,83,0.08); }
+    .reg-photo .caption { position: absolute; inset: 0; background: linear-gradient(to top, rgba(23,61,83,0.6), rgba(23,61,83,0) 60%); display: flex; align-items: flex-end; padding: 24px; color: #fff; font-weight: 500; font-size: 14px; }
+    .reg-photo .placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(23,61,83,0.4); font-size: 14px; }
+    .note-box { background: var(--sky-soft); border: 1px solid var(--sky); border-radius: 12px; padding: 17px; display: flex; gap: 12px; font-size: 12px; color: rgba(23,61,83,0.9); line-height: 1.6; }
+    .form-card { background: rgba(250,250,246,0.8); border: 1px solid rgba(220,238,247,0.8); border-radius: 24px; padding: 41px; box-shadow: 0 10px 25px -4px rgba(23,61,83,0.08), 0 4px 6px -2px rgba(23,61,83,0.02); display: flex; flex-direction: column; gap: 32px; }
+    .form-card h3 { font-weight: 700; font-size: 24px; color: var(--navy); }
+    .form-card .sub { font-size: 14px; color: rgba(38,50,56,0.7); margin-top: 4px; }
+    .form { display: flex; flex-direction: column; gap: 20px; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--ink); }
+    .field input, .field select, .field textarea { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 17px; outline: none; width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .field input::placeholder { color: #9ca3af; }
+    .field input:focus, .field select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(57,168,120,0.15); }
+    .form .btn-green { width: 100%; justify-content: center; }
+    .form-note { text-align: center; font-size: 12px; color: rgba(38,50,56,0.6); }
+    .status { font-size: 14px; padding: 12px 16px; border-radius: 12px; display: none; }
+    .status.show { display: block; }
+    .status.ok { background: var(--green-soft); color: #198754; border: 1px solid #b5e2cd; }
+    .status.err { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* ---------- ATTENDANCE ---------- */
+    .attendance { background: rgba(240,247,251,0.5); border-top: 1px solid var(--sky); padding: 96px 0; }
+    .dash { background: #fff; border: 1px solid var(--sky); border-radius: 24px; padding: 41px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 20px 35px -8px rgba(23,61,83,0.12); }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 24px; }
+    .stat { border: 2px solid var(--sky); border-radius: 16px; padding: 26px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(160deg, #f0f7fb, #fff); }
+    .stat.present { border-color: rgba(57,168,120,0.3); background: linear-gradient(160deg, rgba(232,246,240,0.6), #fff); }
+    .stat.absent { border-color: rgba(239,68,68,0.3); background: linear-gradient(160deg, rgba(254,242,242,0.6), #fff); }
+    .stat .label { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: rgba(23,61,83,0.7); }
+    .stat.present .label { color: var(--green); }
+    .stat.absent .label { color: var(--red); }
+    .stat .num { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 36px; color: var(--navy); line-height: 1.1; margin-top: 4px; }
+    .stat.present .num { color: var(--green); }
+    .stat.absent .num { color: var(--red); }
+    .stat .hint { font-size: 12px; color: rgba(38,50,56,0.6); }
+    .stat .icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: rgba(23,61,83,0.1); }
+    .stat.present .icon { background: rgba(57,168,120,0.1); }
+    .stat.absent .icon { background: rgba(239,68,68,0.1); }
+
+    .toolbar { background: rgba(250,250,246,0.8); border: 1px solid var(--sky); border-radius: 16px; padding: 21px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    .toolbar-left { display: flex; gap: 12px; align-items: center; flex: 1 1 520px; flex-wrap: wrap; }
+    .date-box, .search-box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .date-box input { border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--navy); background: transparent; }
+    .search-box { flex: 1 1 260px; }
+    .search-box input { border: none; outline: none; font-size: 13px; width: 100%; background: transparent; font-family: 'Inter', sans-serif; }
+    .toolbar-right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .pills { display: flex; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 5px; gap: 4px; }
+    .pill { border: none; background: transparent; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px; padding: 6px 14px; border-radius: 8px; cursor: pointer; color: var(--ink); }
+    .pill.active { background: var(--navy); color: #fff; }
+    .save-btn { font-size: 14px; padding: 10px 20px; border-radius: 12px; }
+
+    .mark-form { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 16px; align-items: end; background: var(--sky-soft); border: 1px solid var(--sky); border-radius: 16px; padding: 20px; }
+    .mark-form select { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 17px; outline: none; width: 100%; }
+    .mark-form .mark-btn { width: auto; padding: 14px 24px; font-size: 14px; white-space: nowrap; }
+    @media (max-width: 760px) { .mark-form { grid-template-columns: 1fr; } }
+
+    .table-wrap { border: 1px solid var(--line); border-radius: 16px; overflow-x: auto; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    table { width: 100%; min-width: 880px; border-collapse: collapse; background: #fff; }
+    thead th { background: rgba(240,247,251,0.7); text-align: left; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: var(--navy); padding: 16px 24px; }
+    thead th.center, td.center { text-align: center; }
+    tbody td { padding: 16px 24px; border-top: 1px solid rgba(226,232,240,0.6); font-size: 14px; vertical-align: middle; }
+    .student { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 32px; height: 32px; border-radius: 9999px; background: var(--sky); color: var(--navy); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; flex-shrink: 0; }
+    .grade { display: inline-block; background: #f1f5f9; color: #334155; font-weight: 600; font-size: 12px; padding: 4px 10px; border-radius: 6px; }
+    .badge-status { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; padding: 5px 13px; border-radius: 9999px; border: 1px solid; }
+    .badge-status::before { content: ""; width: 8px; height: 8px; border-radius: 9999px; background: currentColor; }
+    .badge-status.present { background: var(--green-soft); border-color: #b5e2cd; color: #198754; }
+    .badge-status.absent { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+    .toggle { display: inline-flex; background: #f1f5f9; border-radius: 12px; padding: 4px; gap: 4px; }
+    .toggle button { border: none; background: transparent; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; padding: 4px 12px; border-radius: 8px; cursor: pointer; color: var(--ink); }
+    .toggle button.on-present { background: var(--green); color: #fff; }
+    .toggle button.on-absent { background: var(--red); color: #fff; }
+    .empty { text-align: center; padding: 32px; color: rgba(38,50,56,0.6); }
+    .disclaimer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12px; color: rgba(38,50,56,0.6); }
+    .disclaimer strong { color: var(--navy); }
+
+    /* ---------- FOOTER ---------- */
+    footer { background: var(--navy-dark); border-top: 1px solid rgba(255,255,255,0.1); padding: 65px 0 64px; color: #fff; }
+    .foot-grid { display: grid; grid-template-columns: 5fr 3fr 4fr; gap: 32px; }
+    .foot-brand { display: flex; flex-direction: column; gap: 15px; }
+    .foot-brand .row { display: flex; align-items: center; gap: 12px; }
+    .foot-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .foot-brand h4 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .foot-brand p { font-size: 14px; color: rgba(255,255,255,0.7); max-width: 384px; line-height: 1.6; }
+    .social { display: flex; gap: 12px; margin-top: 8px; }
+    .social span { width: 32px; height: 32px; border-radius: 9999px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+    .foot-col h5 { font-family: 'Poppins', sans-serif; font-size: 14px; letter-spacing: .7px; text-transform: uppercase; margin-bottom: 16px; font-weight: 600; }
+    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .foot-col li, .foot-col li a { font-size: 14px; color: rgba(255,255,255,0.8); }
+    .foot-col li a:hover { color: var(--green); }
+    .foot-col .contact li { color: rgba(255,255,255,0.7); display: flex; gap: 12px; }
+    .copy { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 48px; padding-top: 33px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: rgba(255,255,255,0.5); }
+
+    /* ---------- CLOSING CTA ---------- */
+    .closing { background: var(--navy); padding: 96px 128px; text-align: center; }
+    .closing .blob-a { width: 384px; height: 384px; background: rgba(57,168,120,0.1); bottom: -80px; right: -80px; filter: blur(64px); }
+    .closing .blob-b { width: 288px; height: 288px; background: rgba(220,238,247,0.1); top: 40px; left: 40px; filter: blur(40px); }
+    .closing-inner { position: relative; max-width: 1024px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .closing .eyebrow { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #dceef7; }
+    .closing h2 { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 48px; letter-spacing: -1.2px; color: #fff; line-height: 1.1; }
+    .closing .tag { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; color: #dceef7; }
+    .closing p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 672px; line-height: 1.6; }
+    .closing .btn-green { font-family: 'Poppins', sans-serif; font-size: 16px; padding: 16px 40px; margin-top: 16px; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1100px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .closing { padding: 80px 32px; }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hero-grid, .reg-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 44px; }
+      .section-header h2, .reg-left h2 { font-size: 30px; }
+      .summary { grid-template-columns: 1fr; }
+      .closing h2 { font-size: 36px; }
+    }
+    @media (max-width: 560px) {
+      .container { padding: 0 20px; }
+      .cards { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+      .tagline { font-size: 20px; }
+      .dash, .form-card { padding: 24px; }
+      .photo { height: 340px; }
+      .btn { width: 100%; justify-content: center; }
+      .actions { flex-direction: column; }
+      .closing h2 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 2. STICKY NAVIGATION BAR -->
+  <nav class="nav" id="home">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">
+        <div class="logo-mark">🎓</div>
+        <div>
+          <div class="logo-title">BrightSteps</div>
+          <div class="logo-sub">Academy</div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#about">Achievements</a>
+        <a href="#register">Register</a>
+        <a href="#attendance">Attendance</a>
+      </div>
+      <a href="#register" class="btn-pill">Join Our Academy</a>
+    </div>
+  </nav>
+
+  <!-- 3. HERO SECTION -->
+  <section class="hero">
+    <div class="blob" style="width:384px;height:384px;background:rgba(220,238,247,0.5);left:-96px;top:-96px;"></div>
+    <div class="blob" style="width:320px;height:320px;background:rgba(232,246,240,0.6);right:0;bottom:-40px;"></div>
+
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="badge"><span class="dot"></span>Empowering Next-Gen Learners</span>
+          <h1>Every Student Matters,<br/><span>Every Day Counts!</span></h1>
+          <p class="tagline">Where learning grows and every student's journey glows.</p>
+          <p class="desc">Great learning starts with great care. We believe every student deserves attention, encouragement, and the right guidance. Stay connected with your child's learning journey through our simple and smart attendance system.</p>
+
+          <div class="actions">
+            <a class="btn btn-green" href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener">
+              Register Your Child <span>→</span>
+            </a>
+            <a class="btn btn-outline" href="#attendance">Explore Attendance</a>
+          </div>
+
+          <div class="trust">
+            <span>Personal Attention</span>
+            <span>Quality Learning</span>
+            <span>Consistent Progress</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="outline"></div>
+          <div class="photo" style="position:relative;">
+            <div>
+              <div style="font-size:48px;margin-bottom:8px;">👩‍🏫</div>
+              Teacher smiling and guiding eager students in a bright modern classroom
+            </div>
+            <div class="pill-float">
+              <div class="pill-icon">🌱</div>
+              <div>
+                <strong>Nurturing Young Minds</strong>
+                <small>Small batches with personalized mentoring</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ABOUT / ACHIEVEMENT SECTION -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow sky">Why BrightSteps</span>
+        <h2>Small Steps, Big Dreams – Together We Achieve!</h2>
+        <p>Every lesson learned is a step forward. Every effort made is a success in progress.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🎓</div>
+          <h3>Quality Education</h3>
+          <p>Building strong foundations for brighter futures through systematic curriculum and concept mastery.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">👥</div>
+          <h3>Individual Attention</h3>
+          <p>Every student gets the care and guidance they deserve with customized pacing and dedicated doubt clearance.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Continuous Growth</h3>
+          <p>Celebrating progress, one lesson at a time, reinforcing positive study habits and self-assurance.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤝</div>
+          <h3>Supportive Learning</h3>
+          <p>Creating a positive, friendly space to learn and shine without pressure or fear of making mistakes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. STUDENT REGISTRATION SECTION -->
+  <section class="register" id="register">
+    <div class="container">
+      <div class="reg-grid">
+        <div class="reg-left">
+          <span class="eyebrow green" style="align-self:flex-start;">Start Your Journey</span>
+          <h2>One Step to Enroll,<br/><span>A Lifetime to Grow!</span></h2>
+          <p>Every great journey begins with a single step. Register your details below and become a part of our learning community. Let's make learning meaningful together.</p>
+
+          <div class="reg-photo">
+            <div class="placeholder">Happy students collaborating warmly at round wooden desks</div>
+            <div class="caption">Collaborative, cheerful learning environment for all grade levels.</div>
+          </div>
+
+          <div class="note-box">
+            <span style="font-size:18px;">✅</span>
+            <span>Once registered, the student is instantly added to the teacher's active attendance roster below for daily tracking.</span>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div>
+            <h3>Student Registration</h3>
+            <p class="sub">Please fill in the student and parent details to get started.</p>
+          </div>
+
+          <form class="form" id="registrationForm" novalidate>
+            <div class="field">
+              <label for="name">Student Full Name *</label>
+              <input id="name" name="name" type="text" placeholder="e.g. Maya Chen" required />
+            </div>
+            <div class="field">
+              <label for="email">Email Address *</label>
+              <input id="email" name="email" type="email" placeholder="e.g. david.chen@email.com" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number *</label>
+              <input id="phone" name="phone" type="tel" placeholder="e.g. +1 (555) 234-5678" required />
+            </div>
+
+            <button type="submit" class="btn btn-green" id="submitBtn">Register Now <span>→</span></button>
+            <div class="status" id="regStatus"></div>
+            <p class="form-note">Your information is used only for student registration and communication.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. ATTENDANCE MANAGEMENT SECTION -->
+  <section class="attendance" id="attendance">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow navy">Teacher Portal</span>
+        <h2>Present Today, Successful Tomorrow!</h2>
+        <p>Every day in class is an opportunity to learn something new. Keep track of student attendance easily with just one click. Because every day of learning makes a difference!</p>
+      </div>
+
+      <div class="dash">
+        <div class="summary">
+          <div class="stat">
+            <div>
+              <div class="label">Total Students</div>
+              <div class="num" id="totalCount">0</div>
+              <div class="hint">Enrolled active learners</div>
+            </div>
+            <div class="icon">👥</div>
+          </div>
+          <div class="stat present">
+            <div>
+              <div class="label">Present Students</div>
+              <div class="num" id="presentCount">0</div>
+              <div class="hint">Attending class today</div>
+            </div>
+            <div class="icon">✅</div>
+          </div>
+          <div class="stat absent">
+            <div>
+              <div class="label">Absent Students</div>
+              <div class="num" id="absentCount">0</div>
+              <div class="hint">Requires follow-up</div>
+            </div>
+            <div class="icon">❌</div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <label class="date-box">
+              <span>📅</span>
+              <input type="date" id="attDate" />
+            </label>
+            <label class="search-box">
+              <span>🔍</span>
+              <input type="text" id="search" placeholder="Search student by name..." />
+            </label>
+          </div>
+          <div class="toolbar-right">
+            <div class="pills" id="filterPills">
+              <button class="pill active" data-filter="all">All</button>
+              <button class="pill" data-filter="Present">Present</button>
+              <button class="pill" data-filter="Absent">Absent</button>
+            </div>
+            <button class="btn btn-navy save-btn" id="saveAttBtn">💾 Save Attendance</button>
+          </div>
+        </div>
+        <div class="status" id="attStatus"></div>
+
+        <form class="mark-form" id="markForm" autocomplete="off">
+          <div class="field">
+            <label for="markName">Student Name *</label>
+            <input id="markName" type="text" placeholder="Type student name" required />
+          </div>
+          <div class="field">
+            <label for="markGrade">Grade</label>
+            <input id="markGrade" type="text" placeholder="e.g. Grade 8" />
+          </div>
+          <div class="field">
+            <label for="markStatus">Status</label>
+            <select id="markStatus">
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-green mark-btn">Mark Attendance</button>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Phone Number</th>
+                <th class="center">Attendance Status</th>
+                <th class="center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="studentRows"></tbody>
+          </table>
+        </div>
+
+        <div class="disclaimer">
+          <span>* Pre-populated with realistic sample records. You can register new students above to immediately test attendance sync.</span>
+          <strong id="showingText">Showing all students</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="row">
+            <div class="foot-logo">🎓</div>
+            <h4>BrightSteps Academy</h4>
+          </div>
+          <p>A compassionate, quality-driven tuition academy dedicated to building strong foundations, confidence, and consistent academic progress for every student.</p>
+          <div class="social"><span>f</span><span>in</span><span>ig</span></div>
+        </div>
+        <div class="foot-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#about">Key Achievements</a></li>
+            <li><a href="#register">Student Registration</a></li>
+            <li><a href="#attendance">Attendance Management</a></li>
+          </ul>
+        </div>
+        <div class="foot-col contact">
+          <h5>Contact &amp; Location</h5>
+          <ul>
+            <li>📍 104 Learning Blossom Lane, Suite 2B, Cambridge Academic Hub</li>
+            <li>📞 +1 (800) 555-STEP (7837)</li>
+            <li>✉️ hello@brightstepsacademy.edu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copy">
+        <span>© 2026 BrightSteps Academy. All rights reserved.</span>
+        <span>Designed for student success and seamless classroom administration.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 8. CLOSING CALL-TO-ACTION SECTION -->
+  <section class="closing">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="closing-inner">
+      <span class="eyebrow">Empowering Bright Futures</span>
+      <h2>Your Child's Future Starts Here!</h2>
+      <div class="tag">Learn with Care, Grow with Confidence.</div>
+      <p>Let's work together to turn little efforts into big achievements. Every student has potential, and every step deserves encouragement.</p>
+      <a class="btn btn-green" href="#register">Start Your Learning Journey Today! <span>→</span></a>
+    </div>
+  </section>
+
+  <script>
+    /* ===== CONFIG ===== */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAUF0yLKOMnH-ZZRe2asd3eig9GnUAOq9o8obEhFlyLiy1yi21l3bxsFWHhPO4BT7n/exec";
+
+    /* ===== HELPERS ===== */
+    function showStatus(el, ok, message) {
+      el.textContent = message;
+      el.className = "status show " + (ok ? "ok" : "err");
+    }
+
+    /* ===== REGISTRATION ===== */
+    const regForm = document.getElementById("registrationForm");
+    const regStatus = document.getElementById("regStatus");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function showSuccess() {
+      showStatus(regStatus, true, "Thank you! The student has been registered.");
+      regForm.reset();
+      submitBtn.disabled = false;
+    }
+    function showError() {
+      showStatus(regStatus, false, "Something went wrong. Please check your connection and try again.");
+      submitBtn.disabled = false;
+    }
+
+    regForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = regForm.name.value.trim();
+      const email = regForm.email.value.trim();
+      const phone = regForm.phone.value.trim();
+
+      if (!name || !email || !phone) {
+        showStatus(regStatus, false, "Please fill in name, email and phone.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, phone: phone });
+
+      fetch(url, { method: "GET", mode: "no-cors" })
+        .then(() => showSuccess())
+        .catch(() => showError());
+    });
+
+    /* ===== ATTENDANCE ===== */
+    const students = [
+      { name: "Lucas Vance",      grade: "Grade 8", phone: "+1 (555) 342-9182", status: "Present" },
+      { name: "Sophia Morales",   grade: "Grade 7", phone: "+1 (555) 782-4109", status: "Present" },
+      { name: "Aiden Patel",      grade: "Grade 9", phone: "+1 (555) 619-3028", status: "Absent"  },
+      { name: "Emma Watson",      grade: "Grade 8", phone: "+1 (555) 894-1120", status: "Present" },
+      { name: "Noah Campbell",    grade: "Grade 6", phone: "+1 (555) 451-9923", status: "Present" },
+      { name: "Zoe Richardson",   grade: "Grade 7", phone: "+1 (555) 238-7711", status: "Present" }
+    ];
+
+    let currentFilter = "all";
+    const rowsEl = document.getElementById("studentRows");
+    const searchEl = document.getElementById("search");
+    const attDate = document.getElementById("attDate");
+    const attStatus = document.getElementById("attStatus");
+    const saveAttBtn = document.getElementById("saveAttBtn");
+
+    attDate.value = new Date().toISOString().slice(0, 10);
+
+    function initials(name) {
+      return name.split(" ").map(p => p[0]).join("").slice(0, 2);
+    }
+
+    function renderStats() {
+      const present = students.filter(s => s.status === "Present").length;
+      const absent = students.filter(s => s.status === "Absent").length;
+      document.getElementById("totalCount").textContent = students.length;
+      document.getElementById("presentCount").textContent = present;
+      document.getElementById("absentCount").textContent = absent;
+    }
+
+    function renderRows() {
+      const query = searchEl.value.trim().toLowerCase();
+      const visible = students
+        .map((s, i) => ({ s, i }))
+        .filter(({ s }) => currentFilter === "all" || s.status === currentFilter)
+        .filter(({ s }) => s.name.toLowerCase().includes(query));
+
+      rowsEl.innerHTML = "";
+      if (visible.length === 0) {
+        rowsEl.innerHTML = '<tr><td colspan="5" class="empty">No students match this view.</td></tr>';
+      }
+
+      visible.forEach(({ s, i }) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <div class="student">
+              <div class="avatar">${initials(s.name)}</div>
+              <span style="font-weight:500;color:var(--navy);">${s.name}</span>
+            </div>
+          </td>
+          <td><span class="grade">${s.grade}</span></td>
+          <td style="color:rgba(38,50,56,0.8);">${s.phone}</td>
+          <td class="center"><span class="badge-status ${s.status.toLowerCase()}">${s.status}</span></td>
+          <td class="center">
+            <div class="toggle">
+              <button class="${s.status === "Present" ? "on-present" : ""}" data-idx="${i}" data-status="Present">Present</button>
+              <button class="${s.status === "Absent" ? "on-absent" : ""}" data-idx="${i}" data-status="Absent">Absent</button>
+            </div>
+          </td>`;
+        rowsEl.appendChild(tr);
+      });
+
+      document.getElementById("showingText").textContent =
+        "Showing " + visible.length + " of " + students.length + " students";
+      renderStats();
+    }
+
+    /* Send one student's attendance to the Apps Script (GET, no-cors) */
+    function sendAttendance(student, date) {
+      const url = SCRIPT_URL + "?" + new URLSearchParams({
+        action: "attendance",
+        date: date,
+        name: student.name,
+        grade: student.grade || "",
+        phone: student.phone || "",
+        status: student.status
+      });
+      return fetch(url, { method: "GET", mode: "no-cors" });
+    }
+
+    function currentDate() {
+      return attDate.value || new Date().toISOString().slice(0, 10);
+    }
+
+    // Toggle buttons in the table: update the row and save it right away
+    rowsEl.addEventListener("click", function (e) {
+      const btn = e.target.closest("button[data-idx]");
+      if (!btn) return;
+      const student = students[Number(btn.dataset.idx)];
+      student.status = btn.dataset.status;
+      renderRows();
+
+      const date = currentDate();
+      sendAttendance(student, date)
+        .then(() => showStatus(attStatus, true, student.name + " marked " + student.status + " for " + date + "."))
+        .catch(() => showStatus(attStatus, false, "Could not save " + student.name + ". Check your connection and try again."));
+    });
+
+    // Manual entry: type a name, pick Present/Absent, click Mark Attendance
+    const markForm = document.getElementById("markForm");
+    markForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("markName").value.trim();
+      const grade = document.getElementById("markGrade").value.trim();
+      const status = document.getElementById("markStatus").value;
+
+      if (!name) {
+        showStatus(attStatus, false, "Please type the student's name.");
+        return;
+      }
+
+      // Reuse an existing row if the name matches (case-insensitive), otherwise add a new student
+      let student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+      if (student) {
+        student.status = status;
+        if (grade) student.grade = grade;
+      } else {
+        student = { name: name, grade: grade || "—", phone: "", status: status };
+        students.push(student);
+      }
+
+      currentFilter = "all";
+      searchEl.value = "";
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.dataset.filter === "all"));
+      renderRows();
+      markForm.reset();
+      document.getElementById("markStatus").value = "Present";
+
+      const date = currentDate();
+      sendAttendance(student, date)
+        .then(() => showStatus(attStatus, true, name + " marked " + status + " for " + date + "."))
+        .catch(() => showStatus(attStatus, false, "Could not save " + name + ". Check your connection and try again."));
+    });
+
+    searchEl.addEventListener("input", renderRows);
+
+    document.getElementById("filterPills").addEventListener("click", function (e) {
+      const btn = e.target.closest(".pill");
+      if (!btn) return;
+      currentFilter = btn.dataset.filter;
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p === btn));
+      renderRows();
+    });
+
+    saveAttBtn.addEventListener("click", function () {
+      const date = attDate.value;
+      if (!date) {
+        showStatus(attStatus, false, "Please choose a date first.");
+        return;
+      }
+
+      saveAttBtn.disabled = true;
+      const requests = students.map(function (s) {
+        const url = SCRIPT_URL + "?" + new URLSearchParams({
+          action: "attendance",
+          date: date,
+          name: s.name,
+          grade: s.grade,
+          phone: s.phone,
+          status: s.status
+        });
+        return fetch(url, { method: "GET", mode: "no-cors" });
+      });
+
+      Promise.all(requests)
+        .then(() => {
+          showStatus(attStatus, true, "Attendance saved for " + date + ".");
+          saveAttBtn.disabled = false;
+        })
+        .catch(() => {
+          showStatus(attStatus, false, "Could not save attendance. Please check your connection and try again.");
+          saveAttBtn.disabled = false;
+        });
+    });
+
+    renderRows();
+  </script>
+</body>
+</html>
